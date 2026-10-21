@@ -1,0 +1,12 @@
+F:\DeepSeek Work Part\TIA-MCP\src\TiaSpike\obj\Debug\TiaSpike.csproj.AssemblyReference.cache
+F:\DeepSeek Work Part\TIA-MCP\src\TiaSpike\obj\Debug\TiaSpike.GeneratedMSBuildEditorConfig.editorconfig
+F:\DeepSeek Work Part\TIA-MCP\src\TiaSpike\obj\Debug\TiaSpike.AssemblyInfoInputs.cache
+F:\DeepSeek Work Part\TIA-MCP\src\TiaSpike\obj\Debug\TiaSpike.AssemblyInfo.cs
+F:\DeepSeek Work Part\TIA-MCP\src\TiaSpike\obj\Debug\TiaSpike.csproj.CoreCompileInputs.cache
+F:\DeepSeek Work Part\TIA-MCP\src\TiaSpike\bin\Debug\TiaSpike.exe.config
+F:\DeepSeek Work Part\TIA-MCP\src\TiaSpike\bin\Debug\TiaSpike.exe
+F:\DeepSeek Work Part\TIA-MCP\src\TiaSpike\bin\Debug\TiaSpike.pdb
+F:\DeepSeek Work Part\TIA-MCP\src\TiaSpike\obj\Debug\TiaSpike.exe
+F:\DeepSeek Work Part\TIA-MCP\src\TiaSpike\obj\Debug\TiaSpike.pdb
+F:\DeepSeek Work Part\TIA-MCP\src\TiaSpike\bin\Debug\Siemens.Simatic.Simulation.Runtime.Api.x64.dll
+F:\DeepSeek Work Part\TIA-MCP\src\TiaSpike\obj\Debug\TiaSpike.csproj.Up2Date

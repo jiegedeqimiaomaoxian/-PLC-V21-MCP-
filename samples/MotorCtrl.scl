@@ -1,0 +1,72 @@
+FUNCTION_BLOCK "MotorCtrl"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_INPUT
+      Start : Bool;
+      Stop : Bool;
+      Fault : Bool;
+      RunFeedback : Bool;
+   END_VAR
+
+   VAR_OUTPUT
+      Run : Bool;
+      FaultLatch : Bool;
+      RunHours : Real;
+   END_VAR
+
+   VAR
+      SelfHold : Bool;
+      RunTimer : TON_TIME;
+      LastRun : Bool;
+      AccumHours : Real;
+   END_VAR
+
+BEGIN
+    // 故障锁存：Fault 或运行反馈丢失（运行中 3 秒无反馈）
+    IF #Fault THEN
+        #FaultLatch := TRUE;
+    END_IF;
+
+    #RunTimer(IN := #Run AND NOT #RunFeedback,
+              PT := T#3S);
+
+    IF #RunTimer.Q THEN
+        #FaultLatch := TRUE;
+    END_IF;
+
+    // 启保停：自锁 + Stop/故障复位
+    IF #SelfHold THEN
+        #Run := NOT #Stop AND NOT #FaultLatch;
+    ELSE
+        #Run := #Start AND NOT #Stop AND NOT #FaultLatch;
+    END_IF;
+
+    #SelfHold := #Run;
+
+    // 运行计时（秒，按调用周期累加由 OB 决定，这里只做示例）
+    IF #Run AND NOT #LastRun THEN
+        #AccumHours := #AccumHours + 0.0;
+    END_IF;
+    #LastRun := #Run;
+    #RunHours := #AccumHours;
+
+    // 运行反馈为 0 时输出也跟着断（安全）
+    IF NOT #RunFeedback THEN
+        #FaultLatch := #FaultLatch;
+    END_IF;
+END_FUNCTION_BLOCK
+
+ORGANIZATION_BLOCK "Main"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+BEGIN
+    // 循环调用电机控制块（实例化在背景 DB "MotorCtrl_DB"）
+    "MotorCtrl_DB".Start := "Start_Btn";
+    "MotorCtrl_DB".Stop := "Stop_Btn";
+    "MotorCtrl_DB".Fault := "Fault_Btn";
+    "MotorCtrl_DB".RunFeedback := "Motor_FB";
+    "MotorCtrl_DB"();
+
+    "Motor_Out" := "MotorCtrl_DB".Run;
+    "Fault_Lamp" := "MotorCtrl_DB".FaultLatch;
+END_ORGANIZATION_BLOCK
